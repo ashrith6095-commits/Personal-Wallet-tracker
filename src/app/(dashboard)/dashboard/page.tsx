@@ -10,7 +10,6 @@ import {
   Target,
   Flame,
   CreditCard,
-  Plus,
   ArrowUpRight,
   ArrowDownRight,
   Activity,
@@ -39,6 +38,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { cn, formatCurrency, formatDate, getGreeting, getCategoryLabel, getCategoryColor } from "@/lib/utils";
 import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
+import { QuickActionMenu } from "@/components/dashboard/quick-action-menu";
 import type { DashboardData } from "@/types";
 
 function isExpenseTx(tx: { category: string; paymentMethod?: string | null; isRecurring?: boolean }): boolean {
@@ -720,20 +720,8 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* Floating Quick Add Button */}
-      <motion.div
-        className="fixed bottom-8 right-8 z-50"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.2, type: "spring", stiffness: 260, damping: 20 }}
-      >
-        <Button
-          size="icon"
-          className="h-14 w-14 rounded-full shadow-2xl shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-110 transition-all duration-300"
-        >
-          <Plus className="h-6 w-6" />
-        </Button>
-      </motion.div>
+      {/* Floating Quick Action Menu */}
+      <QuickActionMenu />
     </div>
   );
 }
