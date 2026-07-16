@@ -1,0 +1,285 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String                 @id @default(cuid())
+  name           String
+  email          String                 @unique
+  password       String
+  avatar         String?
+  currency       String                 @default("₹")
+  timezone       String                 @default("Asia/Kolkata")
+  theme          String                 @default("system")
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  borrowLends    BorrowLend[]
+  budgets        Budget[]
+  expenses       Expense[]
+  goals          Goal[]
+  incomes        Income[]
+  notifications  Notification[]
+  passwordResets PasswordReset[]
+  receipts       Receipt[]
+  recurringTxns  RecurringTransaction[]
+  subscriptions  Subscription[]
+  wallets        Wallet[]
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Wallet {
+  id            String                 @id @default(cuid())
+  name          String
+  type          WalletType
+  balance       Float                  @default(0)
+  icon          String?
+  color         String?
+  isDefault     Boolean                @default(false)
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  userId        String
+  budgets       Budget[]
+  expenses      Expense[]
+  incomes       Income[]
+  recurringTxns RecurringTransaction[]
+  user          User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Expense {
+  id            String          @id @default(cuid())
+  amount        Float
+  category      ExpenseCategory
+  description   String?
+  date          DateTime        @default(now())
+  time          String?
+  paymentMethod String?
+  notes         String?
+  location      String?
+  tags          String[]
+  isRecurring   Boolean         @default(false)
+  isQuick       Boolean         @default(false)
+  walletId      String?
+  userId        String
+  receiptId     String?         @unique
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  receipt       Receipt?        @relation(fields: [receiptId], references: [id])
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wallet        Wallet?         @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@index([userId, category])
+}
+
+model Income {
+  id          String         @id @default(cuid())
+  amount      Float
+  category    IncomeCategory
+  description String?
+  date        DateTime       @default(now())
+  notes       String?
+  walletId    String?
+  userId      String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wallet      Wallet?        @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}
+
+model Budget {
+  id        String           @id @default(cuid())
+  name      String
+  amount    Float
+  spent     Float            @default(0)
+  category  ExpenseCategory?
+  month     Int
+  year      Int
+  walletId  String?
+  userId    String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wallet    Wallet?          @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, month, year, category])
+  @@index([userId, month, year])
+}
+
+model Goal {
+  id            String    @id @default(cuid())
+  name          String
+  icon          String?
+  targetAmount  Float
+  currentAmount Float     @default(0)
+  deadline      DateTime?
+  isCompleted   Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Subscription {
+  id           String   @id @default(cuid())
+  name         String
+  icon         String?
+  amount       Float
+  billingCycle String
+  nextRenewal  DateTime
+  isActive     Boolean  @default(true)
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model RecurringTransaction {
+  id            String             @id @default(cuid())
+  title         String
+  amount        Float
+  type          RecurringType
+  category      ExpenseCategory?
+  frequency     RecurringFrequency
+  nextDueDate   DateTime
+  lastGenerated DateTime?
+  isActive      Boolean            @default(true)
+  walletId      String?
+  userId        String
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wallet        Wallet?            @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model BorrowLend {
+  id         String         @id @default(cuid())
+  type       BorrowLendType
+  personName String
+  amount     Float
+  settled    Float          @default(0)
+  date       DateTime       @default(now())
+  dueDate    DateTime?
+  notes      String?
+  isSettled  Boolean        @default(false)
+  reminder   Boolean        @default(false)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  userId     String
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Receipt {
+  id        String   @id @default(cuid())
+  fileName  String
+  filePath  String
+  mimeType  String
+  fileSize  Int
+  createdAt DateTime @default(now())
+  userId    String
+  expense   Expense?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  title     String
+  message   String
+  type      NotificationType
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+}
+
+enum WalletType {
+  CASH
+  BANK
+  UPI
+  CREDIT_CARD
+  DEBIT_CARD
+  SAVINGS_ACCOUNT
+}
+
+enum ExpenseCategory {
+  FOOD
+  FUEL
+  TRANSPORT
+  SHOPPING
+  MEDICAL
+  BILLS
+  RENT
+  ENTERTAINMENT
+  RECHARGE
+  EDUCATION
+  TRAVEL
+  INVESTMENT
+  GIFT
+  OTHERS
+}
+
+enum IncomeCategory {
+  SALARY
+  BUSINESS
+  FREELANCING
+  REFUND
+  INTEREST
+  INVESTMENT
+  OTHERS
+}
+
+enum RecurringType {
+  EXPENSE
+  INCOME
+}
+
+enum RecurringFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+enum BorrowLendType {
+  BORROW
+  LEND
+}
+
+enum NotificationType {
+  BUDGET_EXCEEDED
+  SUBSCRIPTION_DUE
+  RECURRING_DUE
+  GOAL_ACHIEVED
+  GENERAL
+  BUDGET_WARNING
+}
