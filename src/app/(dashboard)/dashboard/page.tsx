@@ -15,6 +15,7 @@ import {
   Activity,
   Calendar,
   FileDown,
+  MessageCircle,
 } from "lucide-react";
 import {
   AreaChart,
@@ -40,6 +41,7 @@ import { cn, formatCurrency, formatDate, getGreeting, getCategoryLabel, getCateg
 import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
 import { QuickActionMenu } from "@/components/dashboard/quick-action-menu";
 import { ExpenseReportModal } from "@/components/dashboard/expense-report-modal";
+import { WhatsAppShareModal } from "@/components/dashboard/whatsapp-share-modal";
 import type { DashboardData } from "@/types";
 
 function isExpenseTx(tx: { category: string; paymentMethod?: string | null; isRecurring?: boolean }): boolean {
@@ -262,6 +264,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchDashboard() {
@@ -328,6 +331,14 @@ export default function DashboardPage() {
           >
             <FileDown className="mr-2 h-4 w-4" />
             Download Report
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setWhatsappModalOpen(true)}
+            className="shrink-0 text-green-600 border-green-300 hover:bg-green-50 hover:text-green-700 dark:text-green-400 dark:border-green-700 dark:hover:bg-green-950"
+          >
+            <MessageCircle className="mr-2 h-4 w-4" />
+            Share via WhatsApp
           </Button>
         </motion.div>
 
@@ -743,6 +754,9 @@ export default function DashboardPage() {
 
       {/* Expense Report Modal */}
       <ExpenseReportModal open={reportModalOpen} onOpenChange={setReportModalOpen} />
+
+      {/* WhatsApp Share Modal */}
+      <WhatsAppShareModal open={whatsappModalOpen} onOpenChange={setWhatsappModalOpen} />
     </div>
   );
 }

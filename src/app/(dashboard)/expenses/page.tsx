@@ -28,6 +28,7 @@ import {
   ReceiptText,
   BarChart3,
   FileDown,
+  MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 import { expenseSchema, type ExpenseInput } from "@/lib/validations";
@@ -65,6 +66,7 @@ import {
 } from "@/lib/utils";
 import type { Expense, Wallet as WalletType } from "@/types";
 import { ExpenseReportModal } from "@/components/dashboard/expense-report-modal";
+import { WhatsAppShareModal } from "@/components/dashboard/whatsapp-share-modal";
 
 const PAYMENT_METHODS = ["Cash", "UPI", "Card", "Net Banking"] as const;
 
@@ -123,6 +125,7 @@ export default function ExpensesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
 
   const {
     register,
@@ -371,6 +374,15 @@ export default function ExpensesPage() {
             >
               <FileDown className="mr-2 h-4 w-4" />
               Download Report
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setWhatsappModalOpen(true)}
+              size="lg"
+              className="text-green-600 border-green-300 hover:bg-green-50 hover:text-green-700 dark:text-green-400 dark:border-green-700 dark:hover:bg-green-950"
+            >
+              <MessageCircle className="mr-2 h-4 w-4" />
+              Share via WhatsApp
             </Button>
             <Button onClick={openCreateDialog} size="lg">
               <Plus className="mr-2 h-4 w-4" />
@@ -1154,6 +1166,9 @@ export default function ExpensesPage() {
 
       {/* Expense Report Modal */}
       <ExpenseReportModal open={reportModalOpen} onOpenChange={setReportModalOpen} />
+
+      {/* WhatsApp Share Modal */}
+      <WhatsAppShareModal open={whatsappModalOpen} onOpenChange={setWhatsappModalOpen} />
     </div>
   );
 }
