@@ -73,7 +73,7 @@ function ChartTooltipContent({ active, payload, label }: {
     <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3 shadow-xl dark:text-slate-100">
       <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">{label}</p>
       {payload.map((entry, idx) => (
-        <p key={idx} className="text-sm font-semibold" style={{ color: entry.color || "#1f2937" }}>
+        <p key={idx} className="text-sm font-semibold" style={{ color: entry.color || "#6366f1" }}>
           {entry.name}: {formatCurrency(entry.value)}
         </p>
       ))}
@@ -436,18 +436,18 @@ export default function AnalyticsPage() {
                 {dashboardData?.monthlyComparison && dashboardData.monthlyComparison.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={dashboardData.monthlyComparison} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                      <CartesianGrid strokeDasharray="3 3" className="chart-grid" vertical={false} />
                       <XAxis
                         dataKey="month"
-                        tick={{ fontSize: 11, fill: "#94a3b8" }}
+                        tick={{ fontSize: 11, fill: "var(--chart-text)" }}
                         tickLine={false}
                         axisLine={false}
                       />
                       <YAxis
-                        tick={{ fontSize: 11, fill: "#94a3b8" }}
+                        tick={{ fontSize: 11, fill: "var(--chart-text)" }}
                         tickLine={false}
                         axisLine={false}
-                        tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
+                        tickFormatter={(v) => `Rs.${(v / 1000).toFixed(0)}k`}
                       />
                       <Tooltip content={<ChartTooltipContent />} />
                       <Bar dataKey="income" fill="#22C55E" radius={[6, 6, 0, 0]} barSize={20} name="Income" />
@@ -532,10 +532,10 @@ export default function AnalyticsPage() {
                           <stop offset="100%" stopColor="#DC2626" stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                      <CartesianGrid strokeDasharray="3 3" className="chart-grid" vertical={false} />
                       <XAxis
                         dataKey="date"
-                        tick={{ fontSize: 10, fill: "#94a3b8" }}
+                        tick={{ fontSize: 10, fill: "var(--chart-text)" }}
                         tickLine={false}
                         axisLine={false}
                         tickFormatter={(v) => {
@@ -544,10 +544,10 @@ export default function AnalyticsPage() {
                         }}
                       />
                       <YAxis
-                        tick={{ fontSize: 11, fill: "#94a3b8" }}
+                        tick={{ fontSize: 11, fill: "var(--chart-text)" }}
                         tickLine={false}
                         axisLine={false}
-                        tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
+                        tickFormatter={(v) => `Rs.${(v / 1000).toFixed(0)}k`}
                       />
                       <Tooltip
                         content={<ChartTooltipContent />}
@@ -592,10 +592,10 @@ export default function AnalyticsPage() {
                 {savingsTrend.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={savingsTrend} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                      <CartesianGrid strokeDasharray="3 3" className="chart-grid" vertical={false} />
                       <XAxis
                         dataKey="date"
-                        tick={{ fontSize: 10, fill: "#94a3b8" }}
+                        tick={{ fontSize: 10, fill: "var(--chart-text)" }}
                         tickLine={false}
                         axisLine={false}
                         tickFormatter={(v) => {
@@ -604,11 +604,12 @@ export default function AnalyticsPage() {
                         }}
                       />
                       <YAxis
-                        tick={{ fontSize: 11, fill: "#94a3b8" }}
+                        tick={{ fontSize: 11, fill: "var(--chart-text)" }}
                         tickLine={false}
                         axisLine={false}
-                        tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
-                      />
+                        tickFormatter={(v) => `Rs.${(v / 1000).toFixed(0)}k`}
+                      >
+                      </YAxis>
                       <Tooltip
                         content={<ChartTooltipContent />}
                         labelFormatter={(v) => {
@@ -657,10 +658,10 @@ export default function AnalyticsPage() {
                           <stop offset="100%" stopColor="#2563EB" stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                      <CartesianGrid strokeDasharray="3 3" className="chart-grid" vertical={false} />
                       <XAxis
                         dataKey="date"
-                        tick={{ fontSize: 10, fill: "#94a3b8" }}
+                        tick={{ fontSize: 10, fill: "var(--chart-text)" }}
                         tickLine={false}
                         axisLine={false}
                         tickFormatter={(v) => {
@@ -669,10 +670,10 @@ export default function AnalyticsPage() {
                         }}
                       />
                       <YAxis
-                        tick={{ fontSize: 11, fill: "#94a3b8" }}
+                        tick={{ fontSize: 11, fill: "var(--chart-text)" }}
                         tickLine={false}
                         axisLine={false}
-                        tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
+                        tickFormatter={(v) => `Rs.${(v / 1000).toFixed(0)}k`}
                       />
                       <Tooltip
                         content={<ChartTooltipContent />}
@@ -721,18 +722,18 @@ export default function AnalyticsPage() {
                       layout="vertical"
                       margin={{ top: 5, right: 10, left: 10, bottom: 0 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
+                      <CartesianGrid strokeDasharray="3 3" className="chart-grid" horizontal={false} />
                       <XAxis
                         type="number"
-                        tick={{ fontSize: 11, fill: "#94a3b8" }}
+                        tick={{ fontSize: 11, fill: "var(--chart-text)" }}
                         tickLine={false}
                         axisLine={false}
-                        tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
+                        tickFormatter={(v) => `Rs.${(v / 1000).toFixed(0)}k`}
                       />
                       <YAxis
                         type="category"
                         dataKey="category"
-                        tick={{ fontSize: 10, fill: "#64748b" }}
+                        tick={{ fontSize: 10, fill: "var(--chart-text-strong)" }}
                         tickLine={false}
                         axisLine={false}
                         width={100}

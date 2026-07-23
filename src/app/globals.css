@@ -3,11 +3,43 @@
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --border: #e2e8f0;
+  --ring: #6366f1;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --destructive: #ef4444;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --chart-grid: #f1f5f9;
+  --chart-text: #94a3b8;
+  --chart-text-strong: #64748b;
 }
 
 .dark {
   --background: #0f172a;
   --foreground: #f1f5f9;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --card: #1e293b;
+  --card-foreground: #f1f5f9;
+  --primary: #818cf8;
+  --primary-foreground: #0f172a;
+  --border: #334155;
+  --ring: #818cf8;
+  --accent: #1e293b;
+  --accent-foreground: #f1f5f9;
+  --destructive: #f87171;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --chart-grid: #1e293b;
+  --chart-text: #94a3b8;
+  --chart-text-strong: #cbd5e1;
 }
 
 @theme inline {
@@ -43,4 +75,8 @@ body {
   background: linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.1) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
+}
+
+.recharts-cartesian-grid line {
+  stroke: var(--chart-grid) !important;
 }

@@ -273,7 +273,7 @@ export default function SubscriptionsPage() {
   if (loading) return <LoadingSkeleton />;
 
   return (
-    <div className="mx-auto max-w-5xl space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8 bg-slate-50 dark:bg-slate-900 min-h-screen p-4 md:p-8">
       {/* Header */}
       <motion.div
         initial="hidden"

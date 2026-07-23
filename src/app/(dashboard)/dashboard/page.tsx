@@ -156,21 +156,21 @@ function StatCard({ icon, label, value, change, changeType, gradient, iconBg }: 
         <CardContent className="relative p-5">
           <div className="flex items-start justify-between">
             <div className="space-y-1.5">
-              <p className="text-sm font-medium text-slate-500">{label}</p>
-              <p className="text-2xl font-bold tracking-tight text-white">{value}</p>
+              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{label}</p>
+              <p className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{value}</p>
               {change && (
                 <div className="flex items-center gap-1">
                   {changeType === "up" ? (
-                    <ArrowUpRight className="h-3.5 w-3.5 text-emerald-500" />
+                    <ArrowUpRight className="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400" />
                   ) : changeType === "down" ? (
-                    <ArrowDownRight className="h-3.5 w-3.5 text-red-500" />
+                    <ArrowDownRight className="h-3.5 w-3.5 text-red-500 dark:text-red-400" />
                   ) : null}
                   <span
                     className={cn(
                       "text-xs font-medium",
-                      changeType === "up" && "text-emerald-600",
-                      changeType === "down" && "text-red-600",
-                      changeType === "neutral" && "text-slate-500"
+                      changeType === "up" && "text-emerald-600 dark:text-emerald-400",
+                      changeType === "down" && "text-red-600 dark:text-red-400",
+                      changeType === "neutral" && "text-slate-500 dark:text-slate-400"
                     )}
                   >
                     {change}
@@ -205,8 +205,8 @@ function MiniStatCard({ icon, label, value, iconBg }: MiniStatCardProps) {
               {icon}
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-medium text-slate-500 truncate">{label}</p>
-              <p className="text-lg font-bold tracking-tight text-white truncate">{value}</p>
+              <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate">{label}</p>
+              <p className="text-lg font-bold tracking-tight text-slate-900 dark:text-white truncate">{value}</p>
             </div>
           </div>
         </CardContent>
@@ -224,9 +224,9 @@ interface CustomTooltipProps {
 function AreaChartTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-xl">
-      <p className="text-xs font-medium text-slate-500">{label}</p>
-      <p className="text-sm font-bold text-slate-900">{formatCurrency(payload[0].value)}</p>
+    <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3 shadow-xl">
+      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</p>
+      <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{formatCurrency(payload[0].value)}</p>
     </div>
   );
 }
@@ -234,8 +234,8 @@ function AreaChartTooltip({ active, payload, label }: CustomTooltipProps) {
 function BarChartTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-xl">
-      <p className="text-xs font-medium text-slate-500 mb-1">{label}</p>
+    <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3 shadow-xl">
+      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">{label}</p>
       {payload.map((entry, idx) => (
         <p key={idx} className="text-sm font-semibold" style={{ color: idx === 0 ? "#22C55E" : "#DC2626" }}>
           {entry.name}: {formatCurrency(entry.value)}
@@ -252,7 +252,7 @@ function CustomPieLegend({ payload }: { payload?: Array<{ value: string; color: 
       {payload.map((entry, idx) => (
         <div key={idx} className="flex items-center gap-1.5">
           <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
-          <span className="text-xs text-slate-600">{entry.value}</span>
+          <span className="text-xs text-slate-600 dark:text-slate-300">{entry.value}</span>
         </div>
       ))}
     </div>
@@ -293,8 +293,8 @@ export default function DashboardPage() {
               <Activity className="h-7 w-7 text-red-500" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-slate-900">Unable to load dashboard</h3>
-              <p className="text-sm text-slate-500 mt-1">{error || "No data available"}</p>
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Unable to load dashboard</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{error || "No data available"}</p>
             </div>
             <Button onClick={() => window.location.reload()} variant="outline">
               Try Again
@@ -317,10 +317,10 @@ export default function DashboardPage() {
           transition={{ duration: 0.5 }}
         >
           <div>
-            <h1 className="text-white md:text-3xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
               {getGreeting()} 👋
             </h1>
-            <p className="text-slate-500 mt-1 text-sm md:text-base">
+            <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm md:text-base">
               Here&apos;s your financial overview for today
             </p>
           </div>
@@ -426,8 +426,8 @@ export default function DashboardPage() {
             <CardContent className="p-5">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900">Financial Health Score</h3>
-                  <p className="text-xs text-slate-500">
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Financial Health Score</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     {data.financialHealthScore >= 80
                       ? "Excellent! Keep it up"
                       : data.financialHealthScore >= 60
@@ -452,12 +452,12 @@ export default function DashboardPage() {
             <CardContent className="p-5">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900">Monthly Budget Usage</h3>
-                  <p className="text-xs text-slate-500">
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Monthly Budget Usage</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     {data.highestCategory ? `Highest spending: ${getCategoryLabel(data.highestCategory)}` : "No expenses recorded"}
                   </p>
                 </div>
-                <span className="text-lg font-bold text-slate-900">{data.budgetUsage.toFixed(0)}%</span>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">{data.budgetUsage.toFixed(0)}%</span>
               </div>
               <Progress value={data.budgetUsage} className="h-3" />
             </CardContent>
@@ -520,7 +520,7 @@ export default function DashboardPage() {
                     </AreaChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="flex h-72 items-center justify-center text-sm text-slate-400">
+                  <div className="flex h-72 items-center justify-center text-sm text-slate-400 dark:text-slate-500">
                     No expense data available
                   </div>
                 )}
@@ -570,7 +570,7 @@ export default function DashboardPage() {
                     </PieChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="flex h-72 items-center justify-center text-sm text-slate-400">
+                  <div className="flex h-72 items-center justify-center text-sm text-slate-400 dark:text-slate-500">
                     No category data available
                   </div>
                 )}
@@ -588,11 +588,11 @@ export default function DashboardPage() {
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5">
                       <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                      <span className="text-xs text-slate-500">Income</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400">Income</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="h-2.5 w-2.5 rounded-full bg-red-500" />
-                      <span className="text-xs text-slate-500">Expense</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400">Expense</span>
                   </div>
                 </div>
               </div>
@@ -644,20 +644,20 @@ export default function DashboardPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-slate-100">
-                        <th className="pb-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Category</th>
-                        <th className="pb-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Description</th>
-                        <th className="pb-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Date</th>
-                        <th className="pb-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Payment</th>
-                        <th className="pb-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">Amount</th>
+                      <tr className="border-b border-slate-100 dark:border-slate-700">
+                        <th className="pb-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Category</th>
+                        <th className="pb-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Description</th>
+                        <th className="pb-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
+                        <th className="pb-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Payment</th>
+                        <th className="pb-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Amount</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                       <AnimatePresence>
                         {data.recentTransactions.slice(0, 8).map((tx, idx) => (
                           <motion.tr
                             key={tx.id}
-                            className="group hover:bg-slate-50/50 transition-colors"
+                            className="group hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors"
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.05 * idx }}
@@ -670,18 +670,18 @@ export default function DashboardPage() {
                                 >
                                   {getCategoryLabel(tx.category).charAt(0)}
                                 </div>
-                                <span className="text-sm font-medium text-slate-900">
+                                <span className="text-sm font-medium text-slate-900 dark:text-white">
                                   {getCategoryLabel(tx.category)}
                                 </span>
                               </div>
                             </td>
                             <td className="py-3.5">
-                              <span className="text-sm text-slate-600 truncate max-w-[200px] block">
+                              <span className="text-sm text-slate-600 dark:text-slate-300 truncate max-w-[200px] block">
                                 {tx.description || "—"}
                               </span>
                             </td>
                             <td className="py-3.5">
-                              <span className="text-sm text-slate-500">{formatDate(tx.date)}</span>
+                              <span className="text-sm text-slate-500 dark:text-slate-400">{formatDate(tx.date)}</span>
                             </td>
                             <td className="py-3.5">
                               <Badge variant="outline" className="text-xs font-normal">
@@ -691,7 +691,7 @@ export default function DashboardPage() {
                             <td className="py-3.5 text-right">
                               <span className={cn(
                                 "text-sm font-semibold",
-                                isExpenseTx(tx) ? "text-slate-900" : "text-emerald-600"
+                                isExpenseTx(tx) ? "text-slate-900 dark:text-white" : "text-emerald-600 dark:text-emerald-400"
                               )}>
                                 {isExpenseTx(tx) ? "-" : "+"}{formatCurrency(tx.amount)}
                               </span>
@@ -703,7 +703,7 @@ export default function DashboardPage() {
                   </table>
                 </div>
               ) : (
-                <div className="flex h-40 items-center justify-center text-sm text-slate-400">
+                <div className="flex h-40 items-center justify-center text-sm text-slate-400 dark:text-slate-500">
                   No recent transactions
                 </div>
               )}
@@ -728,18 +728,18 @@ export default function DashboardPage() {
                   {data.upcomingBills.map((bill) => (
                     <div
                       key={bill.id}
-                      className="flex items-center justify-between rounded-xl border border-slate-100 p-4 hover:border-indigo-100 hover:bg-indigo-50/30 transition-all"
+                       className="flex items-center justify-between rounded-xl border border-slate-100 dark:border-slate-700 p-4 hover:border-indigo-100 dark:hover:border-indigo-800 hover:bg-indigo-50/30 dark:hover:bg-indigo-950/30 transition-all"
                     >
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100">
                           <CreditCard className="h-5 w-5 text-indigo-500" />
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-slate-900">{bill.name}</p>
-                          <p className="text-xs text-slate-500">Due {formatDate(bill.nextRenewal)}</p>
+                          <p className="text-sm font-medium text-slate-900 dark:text-white">{bill.name}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">Due {formatDate(bill.nextRenewal)}</p>
                         </div>
                       </div>
-                      <span className="text-sm font-bold text-slate-900">{formatCurrency(bill.amount)}</span>
+                      <span className="text-sm font-bold text-slate-900 dark:text-white">{formatCurrency(bill.amount)}</span>
                     </div>
                   ))}
                 </div>

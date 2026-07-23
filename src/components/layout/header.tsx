@@ -29,7 +29,7 @@ export function Header({ onMenuClick, userName = "User" }: HeaderProps) {
       </Button>
 
       <div className="flex flex-1 items-center gap-2">
-        <h1 className="text-white font-semibold text-slate-900 dark:text-white">
+        <h1 className="text-slate-900 font-semibold dark:text-white">
           {getGreeting()}, {userName}
         </h1>
       </div>

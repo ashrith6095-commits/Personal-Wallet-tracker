@@ -157,7 +157,7 @@ export default function NotificationsPage() {
   if (loading) return <LoadingSkeleton />;
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
+    <div className="mx-auto max-w-3xl space-y-8 bg-slate-50 dark:bg-slate-900 min-h-screen p-4 md:p-8">
       <motion.div
         initial="hidden"
         animate="visible"
