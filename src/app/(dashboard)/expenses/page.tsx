@@ -27,6 +27,7 @@ import {
   Loader2,
   ReceiptText,
   BarChart3,
+  FileDown,
 } from "lucide-react";
 import { toast } from "sonner";
 import { expenseSchema, type ExpenseInput } from "@/lib/validations";
@@ -63,6 +64,7 @@ import {
   getCategoryLabel,
 } from "@/lib/utils";
 import type { Expense, Wallet as WalletType } from "@/types";
+import { ExpenseReportModal } from "@/components/dashboard/expense-report-modal";
 
 const PAYMENT_METHODS = ["Cash", "UPI", "Card", "Net Banking"] as const;
 
@@ -120,6 +122,7 @@ export default function ExpensesPage() {
   const [walletFilter, setWalletFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
 
   const {
     register,
@@ -360,10 +363,20 @@ export default function ExpensesPage() {
               Track and manage all your expenses
             </p>
           </div>
-          <Button onClick={openCreateDialog} size="lg" className="shrink-0">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Expense
-          </Button>
+          <div className="flex items-center gap-3 shrink-0">
+            <Button
+              variant="outline"
+              onClick={() => setReportModalOpen(true)}
+              size="lg"
+            >
+              <FileDown className="mr-2 h-4 w-4" />
+              Download Report
+            </Button>
+            <Button onClick={openCreateDialog} size="lg">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Expense
+            </Button>
+          </div>
         </motion.div>
 
         {/* Filter Bar */}
@@ -1138,6 +1151,9 @@ export default function ExpensesPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Expense Report Modal */}
+      <ExpenseReportModal open={reportModalOpen} onOpenChange={setReportModalOpen} />
     </div>
   );
 }

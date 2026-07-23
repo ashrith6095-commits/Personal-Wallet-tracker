@@ -14,7 +14,7 @@ import {
   ArrowDownRight,
   Activity,
   Calendar,
-
+  FileDown,
 } from "lucide-react";
 import {
   AreaChart,
@@ -39,6 +39,7 @@ import { Progress } from "@/components/ui/progress";
 import { cn, formatCurrency, formatDate, getGreeting, getCategoryLabel, getCategoryColor } from "@/lib/utils";
 import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
 import { QuickActionMenu } from "@/components/dashboard/quick-action-menu";
+import { ExpenseReportModal } from "@/components/dashboard/expense-report-modal";
 import type { DashboardData } from "@/types";
 
 function isExpenseTx(tx: { category: string; paymentMethod?: string | null; isRecurring?: boolean }): boolean {
@@ -260,6 +261,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchDashboard() {
@@ -304,13 +306,29 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       <div className="mx-auto max-w-7xl p-4 md:p-8 space-y-8">
         {/* Header */}
-        <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.5 }}>
-          <h1 className="text-white md:text-3xl font-bold text-slate-900 tracking-tight">
-            {getGreeting()} 👋
-          </h1>
-          <p className="text-slate-500 mt-1 text-sm md:text-base">
-            Here&apos;s your financial overview for today
-          </p>
+        <motion.div
+          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn}
+          transition={{ duration: 0.5 }}
+        >
+          <div>
+            <h1 className="text-white md:text-3xl font-bold text-slate-900 tracking-tight">
+              {getGreeting()} 👋
+            </h1>
+            <p className="text-slate-500 mt-1 text-sm md:text-base">
+              Here&apos;s your financial overview for today
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() => setReportModalOpen(true)}
+            className="shrink-0"
+          >
+            <FileDown className="mr-2 h-4 w-4" />
+            Download Report
+          </Button>
         </motion.div>
 
         {/* Top Row: Primary Stat Cards */}
@@ -722,6 +740,9 @@ export default function DashboardPage() {
 
       {/* Floating Quick Action Menu */}
       <QuickActionMenu />
+
+      {/* Expense Report Modal */}
+      <ExpenseReportModal open={reportModalOpen} onOpenChange={setReportModalOpen} />
     </div>
   );
 }
